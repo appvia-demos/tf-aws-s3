@@ -10,7 +10,6 @@ locals {
       (aws_iam_role.additional_deployment_iam_role[0].arn) = ["prefix1/", "prefix2/"]
     }
   ]
-
 }
 
 data "aws_caller_identity" "current" {}
@@ -41,7 +40,7 @@ data "aws_iam_policy_document" "deployment_iam_policy" {
 resource "aws_iam_policy" "deployment_iam_policy" {
   count = var.privileged_principal_enabled ? 1 : 0
 
-  policy = join("", data.aws_iam_policy_document.deployment_iam_policy.*.json)
+  policy = join("", data.aws_iam_policy_document.deployment_iam_policy[*].json)
 }
 
 module "deployment_principal_label" {
@@ -58,8 +57,8 @@ module "deployment_principal_label" {
 resource "aws_iam_role" "deployment_iam_role" {
   count = var.privileged_principal_enabled ? 1 : 0
 
-  name               = join("", module.deployment_principal_label.*.id)
-  assume_role_policy = join("", data.aws_iam_policy_document.deployment_assume_role.*.json)
+  name               = join("", module.deployment_principal_label[*].id)
+  assume_role_policy = join("", data.aws_iam_policy_document.deployment_assume_role[*].json)
 
   tags = module.deployment_principal_label.tags
 }
@@ -78,8 +77,8 @@ module "additional_deployment_principal_label" {
 resource "aws_iam_role" "additional_deployment_iam_role" {
   count = var.privileged_principal_enabled ? 1 : 0
 
-  name               = join("", module.additional_deployment_principal_label.*.id)
-  assume_role_policy = join("", data.aws_iam_policy_document.deployment_assume_role.*.json)
+  name               = join("", module.additional_deployment_principal_label[*].id)
+  assume_role_policy = join("", data.aws_iam_policy_document.deployment_assume_role[*].json)
 
   tags = module.additional_deployment_principal_label.tags
 }
@@ -87,6 +86,6 @@ resource "aws_iam_role" "additional_deployment_iam_role" {
 resource "aws_iam_role_policy_attachment" "additional_deployment_role_attachment" {
   count = var.privileged_principal_enabled ? 1 : 0
 
-  policy_arn = join("", aws_iam_policy.deployment_iam_policy.*.arn)
-  role       = join("", aws_iam_role.deployment_iam_role.*.name)
+  policy_arn = join("", aws_iam_policy.deployment_iam_policy[*].arn)
+  role       = join("", aws_iam_role.deployment_iam_role[*].name)
 }
