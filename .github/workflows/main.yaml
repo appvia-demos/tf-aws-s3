@@ -238,7 +238,7 @@ jobs:
       - code-docs
       - code-format
       - code-linting
-      - code-security
+      # - code-security
       - code-validate
       - wayfinder-test
     steps:
