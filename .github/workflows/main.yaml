@@ -219,8 +219,8 @@ jobs:
         WAYFINDER_TOKEN: ${{ secrets.WAYFINDER_TOKEN }}
         WAYFINDER_SERVER: ${{ vars.WAYFINDER_SERVER }}
         WAYFINDER_VERSION: ${{ vars.WAYFINDER_VERSION || 'latest' }}
-        WAYFINDER_TOOLBOX_REPO: ${{ vars.WAYFINDER_TOOLBOX_REPO || 'appvia-wayfinder' }}
-      image: quay.io/${{vars.WAYFINDER_TOOLBOX_REPO || 'appvia-wayfinder'}}/wftoolbox:${{vars.WAYFINDER_VERSION || 'latest'}}
+        WAYFINDER_QUAY_ORG: ${{ vars.WAYFINDER_QUAY_ORG || 'appvia-wayfinder' }}
+      image: quay.io/${{vars.WAYFINDER_QUAY_ORG || 'appvia-wayfinder'}}/wftoolbox:${{vars.WAYFINDER_VERSION || 'latest'}}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
