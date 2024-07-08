@@ -26,6 +26,11 @@ env:
   POLICY_SOURCE: ''
   POLICY_VERSION: main
 
+permissions:
+  contents: read
+  pull-requests: write
+  id-token: write
+
 jobs:
   code-linting:
     name: Linting Code
